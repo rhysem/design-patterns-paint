@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 
 using DPPaint.Controllers;
+using DPPaint.Models;
 using DPPaint.Models.ApplicationState;
 using DPPaint.Views;
 
@@ -17,6 +18,7 @@ namespace DPPaint
 
             //PaintCanvasBase paintCanvas = new PaintCanvas();
             PaintCanvas paintCanvas = new PaintCanvas();
+            paintCanvas.SetPaintStrategy(ShapeType.RECTANGLE);
             IGuiWindow guiWindow = new GuiWindow(paintCanvas);
             IUiModule uiModule = new Gui(guiWindow);
             ApplicationState appState = new ApplicationState(uiModule);
@@ -26,15 +28,6 @@ namespace DPPaint
             Application.Run((Form)guiWindow);
 
             //// For example purposes only; remove all lines below from your final project.
-
-            //try
-            //{
-            //    Thread.sleep(500);
-            //}
-            //catch (InterruptedException e)
-            //{
-            //    e.printStackTrace();
-            //}
 
             //// Filled in rectangle
             //Graphics2D graphics2d = paintCanvas.getGraphics2D();
