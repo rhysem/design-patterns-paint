@@ -16,7 +16,6 @@ namespace DPPaint
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //PaintCanvasBase paintCanvas = new PaintCanvas();
             PaintCanvas paintCanvas = new PaintCanvas();
             paintCanvas.SetPaintStrategy(ShapeType.RECTANGLE);
             IGuiWindow guiWindow = new GuiWindow(paintCanvas);

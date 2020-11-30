@@ -10,6 +10,8 @@ namespace DPPaint
     public class PaintCanvas : PaintCanvasBase
     {
         private IPaintStrategy _paintStrategy;
+        protected Point _pointA;
+        protected Point _pointB;
 
         public PaintCanvas()
         {
@@ -35,7 +37,8 @@ namespace DPPaint
             {
                 throw new Exception("Oops!"); // TODO
             }
-            _paintStrategy.SetPointA(new Point(e.X, e.Y));
+            //_paintStrategy.SetPointA(new Point(e.X, e.Y));
+            _pointA = new Point(e.X, e.Y);
         }
 
         protected void canvas_MouseUp(object sender, MouseEventArgs e)
@@ -44,7 +47,9 @@ namespace DPPaint
             {
                 throw new Exception("Oops!"); // TODO
             }
-            _paintStrategy.SetPointB(new Point(e.X, e.Y));
+            _pointB = new Point(e.X, e.Y);
+            _paintStrategy.SetPoints(_pointA, _pointB);
+            //_paintStrategy.SetPointB(new Point(e.X, e.Y));
             Refresh();
         }
 
@@ -67,10 +72,17 @@ namespace DPPaint
             {
                 throw new Exception("Oops!"); // TODO
             }
-            _paintStrategy.DrawShape(e);
 
-            //var pen = new Pen(Color.Blue);
-            //e.Graphics.DrawRectangle(pen, new Rectangle(new Point(200, 150), new Size(75, 75)));
+            var actions = CommandHistory.GetActions();
+            while (actions.Count > 0)
+            {
+                var a = actions.Dequeue();
+                // set paint strategy based on type of 'a'
+                SetPaintStrategy(a.ShapeType);
+                // draw shape
+                _paintStrategy.DrawShape(a, e);
+            }
+
         }
     }
 }

@@ -50,6 +50,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHistory.cs" />
     <Compile Include="Controllers\IPaintController.cs" />
     <Compile Include="Controllers\PaintController.cs" />
     <Compile Include="DialogChoice.cs">
@@ -67,6 +68,7 @@
     <Compile Include="Models\Dialogs\ChooseStartAndEndPointModeDialog.cs" />
     <Compile Include="Models\Dialogs\DialogProvider.cs" />
     <Compile Include="Models\Dialogs\IDialogProvider.cs" />
+    <Compile Include="Models\DrawAction.cs" />
     <Compile Include="Models\MouseMode.cs" />
     <Compile Include="Models\ShapeColor.cs" />
     <Compile Include="Models\ShapeShadingType.cs" />
