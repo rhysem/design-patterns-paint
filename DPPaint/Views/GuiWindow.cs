@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace DPPaint.Views
@@ -10,12 +11,19 @@ namespace DPPaint.Views
         private readonly int defaultHeight = 800;
         private readonly string defaultTitle = "CSPaint";
 
-        //private readonly Insets defaultButtonDimensions = new Insets(5, 8, 5, 8);
+        private readonly int buttonDefaultHeight = 30;
+        private readonly int buttonDefaultWidth = 100;
         private readonly Dictionary<EventName, Button> eventButtons = new Dictionary<EventName, Button>();
 
         public GuiWindow(PaintCanvas canvas)
         {
-            canvas.Height = defaultHeight;
+            this.Height = defaultHeight;
+            this.Width = defaultWidth;
+            var menu = CreateMenu();
+            Controls.Add(menu);
+
+            canvas.Top = menu.Height;
+            canvas.Height = defaultHeight - menu.Height;
             canvas.Width = defaultWidth;
             canvas.Name = defaultTitle;
             canvas.Visible = true;
@@ -63,18 +71,22 @@ namespace DPPaint.Views
         private Panel CreateMenu()
         {
             Panel buttonPanel = CreateButtonPanel();
+            int xPos = 0;
 
             foreach (EventName eventName in Enum.GetValues(typeof(EventName)))
             {
-                AddButtonToPanel(eventName, buttonPanel);
+                AddButtonToPanel(eventName, buttonPanel, new Point(xPos, 0));
+                xPos += buttonDefaultWidth;
             }
 
+            buttonPanel.Width = buttonDefaultWidth * eventButtons.Count;
             return buttonPanel;
         }
 
-        private void AddButtonToPanel(EventName eventName, Panel panel)
+        private void AddButtonToPanel(EventName eventName, Panel panel, Point position)
         {
             Button newButton = CreateButton(eventName);
+            newButton.Location = position;
             eventButtons.Add(eventName, newButton);
             panel.Controls.Add(newButton);
         }
@@ -82,8 +94,10 @@ namespace DPPaint.Views
         private Button CreateButton(EventName eventName)
         {
             Button newButton = new Button() { Text = eventName.ToString() };
-            //newButton.setForeground(Color.BLACK);
-            //newButton.setBackground(Color.WHITE);
+            newButton.ForeColor = Color.Black;
+            newButton.BackColor = Color.White;
+            newButton.Height = buttonDefaultHeight;
+            newButton.Width = buttonDefaultWidth;
             //newButton.setBorder(createButtonBorder());
             return newButton;
         }
@@ -98,6 +112,7 @@ namespace DPPaint.Views
         private Panel CreateButtonPanel()
         {
             Panel panel = new Panel();
+            panel.Height = buttonDefaultHeight;
             //FlowLayout flowLayout = (FlowLayout)panel.getLayout();
             //flowLayout.setAlignment(FlowLayout.LEFT);
             //panel.setBackground(Color.lightGray);
