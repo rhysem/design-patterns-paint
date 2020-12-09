@@ -46,29 +46,51 @@ namespace DPPaint.Models.ApplicationState
             return _activeShapeType;
         }
 
-        public void SetActivePrimaryColor()
+        public void SetActivePrimaryColor(ShapeColor color)
         {
-            _activePrimaryColor = _uiModule.GetDialogResponse(_dialogProvider.GetChoosePrimaryColorDialog());
+            _activePrimaryColor = color;
         }
 
-        public void SetActiveSecondaryColor()
+        public void SetActiveSecondaryColor(ShapeColor color)
         {
-            _activePrimaryColor = _uiModule.GetDialogResponse(_dialogProvider.GetChoosePrimaryColorDialog());
+            _activePrimaryColor = color;
         }
 
-        public void SetActiveShadingType()
+        public void SetActiveShadingType(ShapeShadingType shadingType)
         {
-            _activeShapeShadingType = _uiModule.GetDialogResponse(_dialogProvider.GetChooseShadingTypeDialog());
+            _activeShapeShadingType = shadingType;
         }
 
-        public void SetActiveShape()
+        public void ChooseActiveShape()
         {
-            _activeShapeType = _uiModule.GetDialogResponse(_dialogProvider.GetChooseShapeDialog());
+            _uiModule.GetDialogResponse(_dialogProvider.GetChooseShapeDialog());
         }
 
-        public void SetActiveStartAndEndPointMode()
+        public void ChooseActivePrimaryColor()
         {
-            _activeMouseMode = _uiModule.GetDialogResponse(_dialogProvider.GetChooseStartAndEndPointModeDialog());
+            _uiModule.GetDialogResponse(_dialogProvider.GetChoosePrimaryColorDialog());
+        }
+        public void ChooseActiveSecondaryColor()
+        {
+            _uiModule.GetDialogResponse(_dialogProvider.GetChooseSecondaryColorDialog());
+        }
+        public void ChooseActiveShadingType()
+        {
+            _uiModule.GetDialogResponse(_dialogProvider.GetChooseShadingTypeDialog());
+        }
+        public void ChooseActiveStartAndEndPointMode()
+        {
+            _uiModule.GetDialogResponse(_dialogProvider.GetChooseStartAndEndPointModeDialog());
+        }
+
+        public void SetActiveShape(ShapeType shapeType)
+        {
+            _activeShapeType = shapeType;
+        }
+
+        public void SetActiveStartAndEndPointMode(MouseMode mouseMode)
+        {
+            _activeMouseMode = mouseMode;
         }
 
         private void SetDefaults()

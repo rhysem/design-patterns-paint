@@ -14,6 +14,7 @@ namespace DPPaint.Views
         private readonly int buttonDefaultHeight = 30;
         private readonly int buttonDefaultWidth = 100;
         private readonly Dictionary<EventName, Button> eventButtons = new Dictionary<EventName, Button>();
+        private SettingsDialog _settingsDialog = null;
 
         public GuiWindow(PaintCanvas canvas)
         {
@@ -48,6 +49,31 @@ namespace DPPaint.Views
             return eventButtons[eventName];
         }
 
+        public void SetSettingsDialog(SettingsDialog dialog)
+        {
+            if (_settingsDialog != null)
+            {
+                _settingsDialog.Dispose();
+            }
+
+            _settingsDialog = dialog;
+            _settingsDialog.Visible = true;
+            _settingsDialog.Location = new Point(100, 100);
+            Controls.Add(_settingsDialog);
+            _settingsDialog.BringToFront();
+            _settingsDialog.Show();
+        }
+
+        public void OnSettingsDialogClose()
+        {
+            // THIS sets applicationState.active whatever
+        }
+
+        public void AddControl(Control control)
+        {
+            this.Controls.Add(control);
+        }
+
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -59,14 +85,6 @@ namespace DPPaint.Views
             this.ResumeLayout(false);
 
         }
-
-        //private JPanel createWindow()
-        //{
-        //    JPanel contentPane = createBackgroundPanel();
-        //    JPanel buttonPanel = createMenu();
-        //    contentPane.add(buttonPanel, BorderLayout.NORTH);
-        //    return contentPane;
-        //}
 
         private Panel CreateMenu()
         {
@@ -113,9 +131,6 @@ namespace DPPaint.Views
         {
             Panel panel = new Panel();
             panel.Height = buttonDefaultHeight;
-            //FlowLayout flowLayout = (FlowLayout)panel.getLayout();
-            //flowLayout.setAlignment(FlowLayout.LEFT);
-            //panel.setBackground(Color.lightGray);
             return panel;
         }
 

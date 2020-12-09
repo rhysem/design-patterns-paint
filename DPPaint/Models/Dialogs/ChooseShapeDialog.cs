@@ -31,6 +31,11 @@ namespace DPPaint.Models.Dialogs
             return Enum.GetValues(typeof(ShapeType)).Cast<ShapeType>().ToList();
         }
 
+        //public void OnDialogOptionSelected()
+        //{
+        //    _applicationState.SetActiveShape(); 
+        //}
+
         public ShapeType GetCurrentSelection()
         {
             return _applicationState.GetActiveShapeType();

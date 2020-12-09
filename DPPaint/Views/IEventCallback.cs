@@ -2,6 +2,6 @@
 {
     public interface IEventCallback
 	{
-		void run();
+		void Run();
 	}
 }
