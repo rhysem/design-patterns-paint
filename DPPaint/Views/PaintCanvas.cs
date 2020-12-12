@@ -84,5 +84,17 @@ namespace DPPaint
             }
 
         }
+
+        public void Undo()
+        {
+            CommandHistory.Undo();
+            Refresh();
+        }
+
+        public void Redo()
+        {
+            CommandHistory.Redo();
+            Refresh();
+        }
     }
 }

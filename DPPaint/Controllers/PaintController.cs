@@ -7,11 +7,13 @@ namespace DPPaint.Controllers
     {
         private readonly IUiModule _uiModule;
         private readonly IApplicationState _applicationState;
+        private readonly PaintCanvas _paintCanvas;
 
-        public PaintController(IUiModule uiModule, IApplicationState applicationState)
+        public PaintController(IUiModule uiModule, IApplicationState applicationState, PaintCanvas paintCanvas)
         {
             _uiModule = uiModule;
             _applicationState = applicationState;
+            _paintCanvas = paintCanvas;
         }
 
         public void Setup()
@@ -25,6 +27,8 @@ namespace DPPaint.Controllers
             _uiModule.AddEvent(EventName.CHOOSE_SECONDARY_COLOR, () => _applicationState.ChooseActiveSecondaryColor());
             _uiModule.AddEvent(EventName.CHOOSE_SHADING_TYPE, () => _applicationState.ChooseActiveShadingType());
             _uiModule.AddEvent(EventName.CHOOSE_MOUSE_MODE, () => _applicationState.ChooseActiveStartAndEndPointMode());
+            _uiModule.AddEvent(EventName.UNDO, () => _paintCanvas.Undo());
+            _uiModule.AddEvent(EventName.REDO, () => _paintCanvas.Redo());
         }
     }
 }

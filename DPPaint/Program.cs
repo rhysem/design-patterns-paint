@@ -21,7 +21,7 @@ namespace DPPaint
             IGuiWindow guiWindow = new GuiWindow(paintCanvas);
             IUiModule uiModule = new Gui(guiWindow);
             ApplicationState appState = new ApplicationState(uiModule);
-            IPaintController controller = new PaintController(uiModule, appState);
+            IPaintController controller = new PaintController(uiModule, appState, paintCanvas);
             controller.Setup();
 
             Application.Run((Form)guiWindow);
