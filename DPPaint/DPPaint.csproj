@@ -125,6 +125,7 @@
     <Compile Include="Views\PaintCanvasBase.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Views\PaintStrategy\EllipsePaintStrategy.cs" />
     <Compile Include="Views\PaintStrategy\IPaintStrategy.cs" />
     <Compile Include="Views\PaintStrategy\RectanglePaintStrategy.cs" />
     <EmbeddedResource Include="DialogChoice.resx">

@@ -7,8 +7,8 @@ namespace DPPaint.Views.PaintStrategy
 {
     public interface IPaintStrategy
     {
-        void SetPointA(Point point);
-        void SetPointB(Point point);
+        //void SetPointA(Point point);
+        //void SetPointB(Point point);
         void SetPoints(Point pointA, Point pointB);
         void DrawShape(DrawAction a, PaintEventArgs e);
     }
