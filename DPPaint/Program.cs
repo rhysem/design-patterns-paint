@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
+
+using Autofac;
 
 using DPPaint.Controllers;
 using DPPaint.Models;
@@ -13,36 +16,28 @@ namespace DPPaint
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            var builder = new ContainerBuilder();
+            var assemblies = Assembly.GetExecutingAssembly();
+            builder.RegisterAssemblyModules(assemblies);
+            var container = builder.Build();
 
-            PaintCanvas paintCanvas = new PaintCanvas();
-            paintCanvas.SetPaintStrategy(ShapeType.RECTANGLE);
-            IGuiWindow guiWindow = new GuiWindow(paintCanvas);
-            IUiModule uiModule = new Gui(guiWindow);
-            ApplicationState appState = new ApplicationState(uiModule);
-            IPaintController controller = new PaintController(uiModule, appState, paintCanvas);
-            controller.Setup();
+            using (var scope = container.BeginLifetimeScope())
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run((Form)guiWindow);
+                PaintCanvas paintCanvas = new PaintCanvas();
+                paintCanvas.SetPaintStrategy(ShapeType.RECTANGLE);
+                IGuiWindow guiWindow = scope.Resolve<IGuiWindow>(new NamedParameter("canvas", paintCanvas));
+                IUiModule uiModule = scope.Resolve<IUiModule>(new NamedParameter("gui", guiWindow));
+                IApplicationState appState = scope.Resolve<IApplicationState>(new NamedParameter("uiModule", uiModule)); 
+                IPaintController controller = scope.Resolve<IPaintController>(new NamedParameter("uiModule", uiModule),
+                                                                              new NamedParameter("applicationState", appState),
+                                                                              new NamedParameter("paintCanvas", paintCanvas));
+                controller.Setup();
 
-            //// For example purposes only; remove all lines below from your final project.
-
-            //// Filled in rectangle
-            //Graphics2D graphics2d = paintCanvas.getGraphics2D();
-            //graphics2d.setColor(Color.GREEN);
-            //graphics2d.fillRect(12, 13, 200, 400);
-
-            //// Outlined rectangle
-            //graphics2d.setStroke(new BasicStroke(5));
-            //graphics2d.setColor(Color.BLUE);
-            //graphics2d.drawRect(12, 13, 200, 400);
-
-            //// Selected Shape
-            //Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 9 }, 0);
-            //graphics2d.setStroke(stroke);
-            //graphics2d.setColor(Color.BLACK);
-            //graphics2d.drawRect(7, 8, 210, 410);
+                Application.Run((Form)guiWindow);
+            }
         }
     }
 }

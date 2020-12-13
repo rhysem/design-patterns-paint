@@ -7,7 +7,7 @@ using DPPaint.Views.PaintStrategy;
 
 namespace DPPaint
 {
-    public class PaintCanvas : PaintCanvasBase
+    public class PaintCanvas : Control//: PaintCanvasBase
     {
         private IPaintStrategy _paintStrategy;
         protected Point _pointA;
@@ -59,10 +59,6 @@ namespace DPPaint
             this.ResumeLayout(false);
 
         }
-        //public override Graphics GetGraphics()
-        //{
-        //    return GetGraphics();
-        //}
 
         protected override void OnPaint(PaintEventArgs e)
         {
