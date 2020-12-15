@@ -37,7 +37,6 @@ namespace DPPaint
             {
                 throw new Exception("Oops!"); // TODO
             }
-            //_paintStrategy.SetPointA(new Point(e.X, e.Y));
             _pointA = new Point(e.X, e.Y);
         }
 
@@ -49,7 +48,6 @@ namespace DPPaint
             }
             _pointB = new Point(e.X, e.Y);
             _paintStrategy.SetPoints(_pointA, _pointB);
-            //_paintStrategy.SetPointB(new Point(e.X, e.Y));
             Refresh();
         }
 

@@ -29,8 +29,8 @@ namespace DPPaint.Views
             var point = new Point(0, 0);
             foreach (var option in dialogOptions)
             {
-                var dialogChoice = new DialogChoice();
-                dialogChoice.label1.Text = option.ToString();
+                var dialogChoice = new RadioButton();
+                dialogChoice.Text = option.ToString();
                 dialogChoice.Location = point;
                 dialog.groupBox1.Controls.Add(dialogChoice);
                 point.Y += dialogChoice.Height;
