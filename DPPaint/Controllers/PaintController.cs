@@ -22,11 +22,11 @@ namespace DPPaint.Controllers
         }
         private void SetupEvents()
         {
-            _uiModule.AddEvent(EventName.CHOOSE_SHAPE, () => _applicationState.ChooseActiveShape());
-            _uiModule.AddEvent(EventName.CHOOSE_PRIMARY_COLOR, () => _applicationState.ChooseActivePrimaryColor());
-            _uiModule.AddEvent(EventName.CHOOSE_SECONDARY_COLOR, () => _applicationState.ChooseActiveSecondaryColor());
-            _uiModule.AddEvent(EventName.CHOOSE_SHADING_TYPE, () => _applicationState.ChooseActiveShadingType());
-            _uiModule.AddEvent(EventName.CHOOSE_MOUSE_MODE, () => _applicationState.ChooseActiveStartAndEndPointMode());
+            _uiModule.AddEvent(EventName.CHOOSE_SHAPE, () => _applicationState.SetActiveShape());
+            _uiModule.AddEvent(EventName.CHOOSE_PRIMARY_COLOR, () => _applicationState.SetActivePrimaryColor());
+            _uiModule.AddEvent(EventName.CHOOSE_SECONDARY_COLOR, () => _applicationState.SetActiveSecondaryColor());
+            _uiModule.AddEvent(EventName.CHOOSE_SHADING_TYPE, () => _applicationState.SetActiveShadingType());
+            _uiModule.AddEvent(EventName.CHOOSE_MOUSE_MODE, () => _applicationState.SetActiveStartAndEndPointMode());
             _uiModule.AddEvent(EventName.UNDO, () => _paintCanvas.Undo());
             _uiModule.AddEvent(EventName.REDO, () => _paintCanvas.Redo());
         }

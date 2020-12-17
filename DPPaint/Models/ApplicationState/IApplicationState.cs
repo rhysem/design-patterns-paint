@@ -2,20 +2,15 @@
 {
     public interface IApplicationState
     {
-        void ChooseActiveShape();
-        void ChooseActivePrimaryColor();
-        void ChooseActiveSecondaryColor();
-        void ChooseActiveShadingType();
-        void ChooseActiveStartAndEndPointMode();
-        void SetActiveShape(ShapeType shapeType);
+        void SetActiveShape();
 
-        void SetActivePrimaryColor(ShapeColor color);
+        void SetActivePrimaryColor();
 
-        void SetActiveSecondaryColor(ShapeColor color);
+        void SetActiveSecondaryColor();
 
-        void SetActiveShadingType(ShapeShadingType shadingType);
+        void SetActiveShadingType();
 
-        void SetActiveStartAndEndPointMode(MouseMode mouseMode);
+        void SetActiveStartAndEndPointMode();
 
         ShapeType GetActiveShapeType();
 

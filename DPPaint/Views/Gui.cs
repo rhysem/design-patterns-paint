@@ -21,7 +21,7 @@ namespace DPPaint.Views
 
         public T GetDialogResponse<T>(IDialogChoice<T> dialogSettings)
         {
-            SettingsDialog dialog = new SettingsDialog();
+            SettingsForm dialog = new SettingsForm();
             dialog.Text = dialogSettings.GetDialogTitle();
             dialog.label1.Text = dialogSettings.GetDialogText();
 
@@ -36,13 +36,14 @@ namespace DPPaint.Views
                 point.Y += dialogChoice.Height;
             }
 
-            _gui.SetSettingsDialog(dialog);
+            dialog.Location = new Point(100, 100);
+            dialog.BringToFront();
 
-            //return await _gui.GetDialogResponse();
+            var selectedValue = dialog.ShowForm<T>();
 
-            // need OK button - set selectedValue on dialogClose
-
-            return dialogSettings.GetCurrentSelection();
+            return selectedValue == null ?
+                dialogSettings.GetCurrentSelection() :
+                selectedValue;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace DPPaint.Views
         private readonly int buttonDefaultHeight = 30;
         private readonly int buttonDefaultWidth = 100;
         private readonly Dictionary<EventName, Button> eventButtons = new Dictionary<EventName, Button>();
-        private SettingsDialog _settingsDialog = null;
+        //private SettingsDialog _settingsDialog = null;
+        private SettingsForm _settingsForm = null;
 
         public GuiWindow(PaintCanvas canvas)
         {
@@ -49,29 +50,30 @@ namespace DPPaint.Views
             return eventButtons[eventName];
         }
 
-        public void SetSettingsDialog(SettingsDialog dialog)
+        public void SetSettingsDialog(SettingsForm dialog)
         {
-            if (_settingsDialog != null)
+            if (_settingsForm != null)
             {
-                _settingsDialog.Dispose();
+                _settingsForm.Dispose();
             }
 
-            _settingsDialog = dialog;
-            _settingsDialog.Visible = true;
-            _settingsDialog.Location = new Point(100, 100);
-            Controls.Add(_settingsDialog);
-            _settingsDialog.BringToFront();
-            _settingsDialog.Show();
-        }
+            //_settingsForm = dialog;
+            //_settingsForm.Visible = true;
+            //_settingsForm.Location = new Point(100, 100);
+            //Controls.Add(_settingsForm);
+            //_settingsForm.BringToFront();
+            //var s = _settingsForm.ShowDialog();
+            //if (_settingsDialog != null)
+            //{
+            //    _settingsDialog.Dispose();
+            //}
 
-        public void OnSettingsDialogClose()
-        {
-            // THIS sets applicationState.active whatever
-        }
-
-        public void AddControl(Control control)
-        {
-            this.Controls.Add(control);
+            //_settingsDialog = dialog;
+            //_settingsDialog.Visible = true;
+            //_settingsDialog.Location = new Point(100, 100);
+            //Controls.Add(_settingsDialog);
+            //_settingsDialog.BringToFront();
+            //_settingsDialog.Show();
         }
 
         private void InitializeComponent()
