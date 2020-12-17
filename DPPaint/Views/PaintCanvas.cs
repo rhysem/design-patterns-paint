@@ -7,7 +7,7 @@ using DPPaint.Views.PaintStrategy;
 
 namespace DPPaint
 {
-    public class PaintCanvas : Control//: PaintCanvasBase
+    public class PaintCanvas : Control
     {
         private IPaintStrategy _paintStrategy;
         protected Point _pointA;
@@ -25,6 +25,9 @@ namespace DPPaint
             {
                 case ShapeType.RECTANGLE:
                     _paintStrategy = new RectanglePaintStrategy();
+                    break;
+                case ShapeType.ELLIPSE:
+                    _paintStrategy = new EllipsePaintStrategy();
                     break;
                 default:
                     throw new NotImplementedException();
