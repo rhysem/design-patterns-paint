@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using Autofac;
 
 using DPPaint.Controllers;
-using DPPaint.Models;
 using DPPaint.Models.ApplicationState;
 using DPPaint.Views;
 
@@ -27,7 +26,6 @@ namespace DPPaint
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 PaintCanvas paintCanvas = new PaintCanvas();
-                paintCanvas.SetPaintStrategy(ShapeType.RECTANGLE);
                 IGuiWindow guiWindow = scope.Resolve<IGuiWindow>(new NamedParameter("canvas", paintCanvas));
                 IUiModule uiModule = scope.Resolve<IUiModule>(new NamedParameter("gui", guiWindow));
                 IApplicationState appState = scope.Resolve<IApplicationState>(new NamedParameter("uiModule", uiModule)); 

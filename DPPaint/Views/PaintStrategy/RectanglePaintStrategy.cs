@@ -8,19 +8,7 @@ namespace DPPaint.Views.PaintStrategy
 {
     public class RectanglePaintStrategy : IPaintStrategy
     {
-        //private Point _pointA;
-        //private Point _pointB;
         private Rectangle _rectangle;
-
-        //public void SetPointA(Point point)
-        //{
-        //    //_pointA = point;
-        //}
-
-        //public void SetPointB(Point point)
-        //{
-        //    //_pointB = point;
-        //}
 
         public void SetPoints(Point pointA, Point pointB)
         {
@@ -36,6 +24,7 @@ namespace DPPaint.Views.PaintStrategy
                 Shape = _rectangle,
                 Brush = new SolidBrush(Color.Blue)
             };
+
             CommandHistory.AddAction(action);
         }
 

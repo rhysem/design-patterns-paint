@@ -24,6 +24,8 @@ namespace DPPaint.Views.PaintStrategy
                 Shape = _ellipse,
                 Brush = new SolidBrush(Color.Blue)
             };
+
+            CommandHistory.AddAction(action);
         }
 
         public void DrawShape(DrawAction a, PaintEventArgs e)

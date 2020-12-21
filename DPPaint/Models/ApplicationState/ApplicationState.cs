@@ -64,6 +64,7 @@ namespace DPPaint.Models.ApplicationState
         public void SetActiveShape()
         {
             _activeShapeType = _uiModule.GetDialogResponse(_dialogProvider.GetChooseShapeDialog());
+            PaintCanvas.SetPaintStrategy(_activeShapeType);
         }
 
         public void SetActiveStartAndEndPointMode()

@@ -121,6 +121,7 @@
     <Compile Include="Views\PaintStrategy\EllipsePaintStrategy.cs" />
     <Compile Include="Views\PaintStrategy\IPaintStrategy.cs" />
     <Compile Include="Views\PaintStrategy\RectanglePaintStrategy.cs" />
+    <Compile Include="Views\PaintStrategy\TrianglePaintStrategy.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
