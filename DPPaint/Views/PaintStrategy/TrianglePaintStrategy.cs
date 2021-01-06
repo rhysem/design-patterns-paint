@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using DPPaint.Models;
+using DPPaint.Views.DrawCommand;
 
 namespace DPPaint.Views.PaintStrategy
 {
@@ -18,11 +19,18 @@ namespace DPPaint.Views.PaintStrategy
 
         public void AddDrawAction()
         {
+            IDrawCommand drawCommand;
+
+            // TODO
+
+            drawCommand = new DrawFilledInCommand();
+
             var action = new DrawAction()
             {
                 ShapeType = ShapeType.TRIANGLE,
                 Shape = _triangle,
-                Brush = new SolidBrush(Color.Blue)
+                DrawCommand = drawCommand
+                //Brush = new SolidBrush(Color.Blue)
             };
 
             CommandHistory.AddAction(action);
@@ -39,7 +47,8 @@ namespace DPPaint.Views.PaintStrategy
 
         public void DrawShape(DrawAction a, PaintEventArgs e)
         {
-            e.Graphics.FillPolygon((Brush)a.Brush, (Point[])a.Shape);
+            a.DrawCommand.ExecuteDraw(e, a.ShapeType, a.Shape);
+            //e.Graphics.FillPolygon((Brush)a.Brush, (Point[])a.Shape);
         }
     }
 }

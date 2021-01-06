@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using DPPaint.Models;
+using DPPaint.Views.DrawCommand;
 
 namespace DPPaint.Views.PaintStrategy
 {
@@ -22,7 +23,8 @@ namespace DPPaint.Views.PaintStrategy
             {
                 ShapeType = ShapeType.RECTANGLE,
                 Shape = _rectangle,
-                Brush = new SolidBrush(Color.Blue)
+                DrawCommand = new DrawOutlineAndFilledInCommand()
+                //Brush = new SolidBrush(Color.Blue)
             };
 
             CommandHistory.AddAction(action);
@@ -30,7 +32,8 @@ namespace DPPaint.Views.PaintStrategy
 
         public void DrawShape(DrawAction a, PaintEventArgs e)
         {
-            e.Graphics.FillRectangle((System.Drawing.Brush)a.Brush, (Rectangle)a.Shape);
+            a.DrawCommand.ExecuteDraw(e, a.ShapeType, a.Shape);
+            //e.Graphics.FillRectangle((System.Drawing.Brush)a.Brush, (Rectangle)a.Shape);
         }
 
         private Rectangle CalculateRectangle(Point pointA, Point pointB)

@@ -106,6 +106,10 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\DrawCommand\DrawFilledInCommand.cs" />
+    <Compile Include="Views\DrawCommand\DrawOutlineAndFilledInCommand.cs" />
+    <Compile Include="Views\DrawCommand\IDrawCommand.cs" />
+    <Compile Include="Views\DrawCommand\DrawOutlineCommand.cs" />
     <Compile Include="Views\EventName.cs" />
     <Compile Include="Views\Gui.cs" />
     <Compile Include="Views\GuiWindow.cs">

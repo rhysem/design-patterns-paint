@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using DPPaint.Models;
+using DPPaint.Views.DrawCommand;
 
 namespace DPPaint.Views.PaintStrategy
 {
@@ -22,15 +23,17 @@ namespace DPPaint.Views.PaintStrategy
             {
                 ShapeType = ShapeType.ELLIPSE,
                 Shape = _ellipse,
-                Brush = new SolidBrush(Color.Blue)
-            };
+                DrawCommand = new DrawFilledInCommand()
+                //Brush = new SolidBrush(Color.Blue)
+            };  
 
             CommandHistory.AddAction(action);
         }
 
         public void DrawShape(DrawAction a, PaintEventArgs e)
         {
-            e.Graphics.FillEllipse((Brush)a.Brush, (Rectangle)a.Shape);
+            a.DrawCommand.ExecuteDraw(e, a.ShapeType, a.Shape);
+            //e.Graphics.FillEllipse((Brush)a.Brush, (Rectangle)a.Shape);
         }
 
         private Rectangle CalculateEllipseBounds(Point pointA, Point pointB)
