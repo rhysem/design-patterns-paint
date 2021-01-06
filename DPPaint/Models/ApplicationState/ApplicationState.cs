@@ -14,11 +14,25 @@ namespace DPPaint.Models.ApplicationState
         private ShapeShadingType _activeShapeShadingType;
         private MouseMode _activeMouseMode;
 
+        private static ApplicationState _applicationState;
+
+        public static ApplicationState GetApplicationState()
+        {
+            if (_applicationState == null)
+            {
+                throw new System.Exception("Application state not initialized!");
+            }
+
+            return _applicationState;
+        }
+
         public ApplicationState(IUiModule uiModule)
         {
             _uiModule = uiModule;
             _dialogProvider = new DialogProvider(this);
             SetDefaults();
+
+            _applicationState = this;
         }
 
         public MouseMode GetActiveMouseMode()

@@ -7,12 +7,26 @@ namespace DPPaint.Views.DrawCommand
 {
     public class DrawOutlineAndFilledInCommand : IDrawCommand
     {
-        public void ExecuteDraw(PaintEventArgs e, ShapeType shapeType, object shape) 
+        public void ExecuteDraw(PaintEventArgs e, DrawAction action) 
         {
-            var brush = new SolidBrush(Color.Blue); // primary color
-            var pen = new Pen(Color.Black); // secondary color
-            e.Graphics.FillRectangle(brush, (Rectangle)shape);
-            e.Graphics.DrawRectangle(pen, (Rectangle)shape);
+            var brush = new SolidBrush(action.PrimaryColor);
+            var pen = new Pen(action.SecondaryColor);
+
+            switch(action.ShapeType)
+            {
+                case ShapeType.RECTANGLE:
+                    e.Graphics.FillRectangle(brush, (Rectangle)action.Shape);
+                    e.Graphics.DrawRectangle(pen, (Rectangle)action.Shape);
+                    break;
+                case ShapeType.TRIANGLE:
+                    e.Graphics.FillPolygon(brush, (Point[])action.Shape);
+                    e.Graphics.DrawPolygon(pen, (Point[])action.Shape);
+                    break;
+                case ShapeType.ELLIPSE:
+                    e.Graphics.FillEllipse(brush, (Rectangle)action.Shape);
+                    e.Graphics.DrawEllipse(pen, (Rectangle)action.Shape);
+                    break;
+            }
         }
     }
 }

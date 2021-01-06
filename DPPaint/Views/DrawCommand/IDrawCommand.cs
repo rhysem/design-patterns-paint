@@ -6,6 +6,6 @@ namespace DPPaint.Views.DrawCommand
 {
     public interface IDrawCommand
     {
-        void ExecuteDraw(PaintEventArgs e, ShapeType shapeType, object shape);
+        void ExecuteDraw(PaintEventArgs e, DrawAction action);
     }
 }

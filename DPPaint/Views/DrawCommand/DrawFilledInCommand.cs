@@ -7,11 +7,22 @@ namespace DPPaint.Views.DrawCommand
 {
     public class DrawFilledInCommand : IDrawCommand
     {
-        public void ExecuteDraw(PaintEventArgs e, ShapeType shapeType, object shape)
+        public void ExecuteDraw(PaintEventArgs e, DrawAction action)
         {
-            // TODO - handle ALL shapes
-            var brush = new SolidBrush(Color.Blue); // primary color - TODO - handle ALL colors
-            e.Graphics.FillRectangle(brush, (Rectangle)shape); //TODO handle ALL shapes
+            var brush = new SolidBrush(action.PrimaryColor);
+            switch(action.ShapeType)
+            {
+                case ShapeType.RECTANGLE:
+                    e.Graphics.FillRectangle(brush, (Rectangle)action.Shape);
+                    break;
+                case ShapeType.TRIANGLE:
+                    e.Graphics.FillPolygon(brush, (Point[])action.Shape);
+                    break;
+                case ShapeType.ELLIPSE:
+                    e.Graphics.FillEllipse(brush, (Rectangle)action.Shape);
+                    break;
+            }
+
         }
     }
 }
