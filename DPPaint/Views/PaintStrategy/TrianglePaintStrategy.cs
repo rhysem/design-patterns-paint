@@ -8,13 +8,13 @@ using DPPaint.Views.DrawCommand;
 
 namespace DPPaint.Views.PaintStrategy
 {
-    public class EllipsePaintStrategy : IPaintStrategy
+    public class TrianglePaintStrategy : IPaintStrategy
     {
-        private Rectangle _ellipse;
+        private Point[] _triangle;
 
         public void SetPoints(Point pointA, Point pointB)
         {
-            _ellipse = CalculateEllipseBounds(pointA, pointB);
+            _triangle = CalculateTriangle(pointA, pointB);
             AddDrawAction();
         }
 
@@ -22,25 +22,28 @@ namespace DPPaint.Views.PaintStrategy
         {
             var action = new DrawAction()
             {
-                ShapeType = ShapeType.ELLIPSE,
-                Shape = _ellipse,
+                ShapeType = ShapeType.TRIANGLE,
+                Shape = _triangle,
                 DrawCommand = GetDrawCommandType(),
                 PrimaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActivePrimaryColor())),
                 SecondaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActiveSecondaryColor())),
-            };  
+            };
 
             CommandHistory.AddAction(action);
+        }
+
+        private Point[] CalculateTriangle(Point pointA, Point pointB)
+        {
+            return new Point[] {
+                new Point() { X = Math.Min(pointA.X, pointB.X) + (Math.Abs(pointA.X - pointB.X) / 2), Y = Math.Min(pointA.Y, pointB.Y)},
+                new Point() { X = Math.Min(pointA.X, pointB.X), Y = Math.Max(pointA.Y, pointB.Y)},
+                new Point() { X = Math.Max(pointA.X, pointB.X), Y = Math.Max(pointA.Y, pointB.Y)}
+            };
         }
 
         public void DrawShape(DrawAction a, PaintEventArgs e)
         {
             a.DrawCommand.ExecuteDraw(e, a);
-        }
-
-        private Rectangle CalculateEllipseBounds(Point pointA, Point pointB)
-        {
-            return Rectangle.FromLTRB(Math.Min(pointA.X, pointB.X), Math.Min(pointA.Y, pointB.Y),
-                                      Math.Max(pointA.X, pointB.X), Math.Max(pointA.Y, pointB.Y));
         }
 
         private IDrawCommand GetDrawCommandType()

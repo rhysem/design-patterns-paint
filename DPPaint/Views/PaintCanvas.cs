@@ -7,9 +7,9 @@ using DPPaint.Views.PaintStrategy;
 
 namespace DPPaint
 {
-    public class PaintCanvas : Control//: PaintCanvasBase
+    public class PaintCanvas : Control
     {
-        private IPaintStrategy _paintStrategy;
+        private static IPaintStrategy _paintStrategy;
         protected Point _pointA;
         protected Point _pointB;
 
@@ -17,14 +17,21 @@ namespace DPPaint
         {
             MouseDown += new MouseEventHandler(canvas_MouseDown);
             MouseUp += new MouseEventHandler(canvas_MouseUp);
+            _paintStrategy = new RectanglePaintStrategy(); // default
         }
 
-        public void SetPaintStrategy(ShapeType shapeType)
+        public static void SetPaintStrategy(ShapeType shapeType)
         {
             switch(shapeType)
             {
                 case ShapeType.RECTANGLE:
                     _paintStrategy = new RectanglePaintStrategy();
+                    break;
+                case ShapeType.ELLIPSE:
+                    _paintStrategy = new EllipsePaintStrategy();
+                    break;
+                case ShapeType.TRIANGLE:
+                    _paintStrategy = new TrianglePaintStrategy();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -33,10 +40,6 @@ namespace DPPaint
 
         protected void canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            if (_paintStrategy == null)
-            {
-                throw new Exception("Oops!"); // TODO
-            }
             _pointA = new Point(e.X, e.Y);
         }
 
@@ -46,7 +49,9 @@ namespace DPPaint
             {
                 throw new Exception("Oops!"); // TODO
             }
+
             _pointB = new Point(e.X, e.Y);
+            //SetPaintStrategy(appState.GetActiveShapeType());
             _paintStrategy.SetPoints(_pointA, _pointB);
             Refresh();
         }
@@ -61,11 +66,6 @@ namespace DPPaint
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
-            if (_paintStrategy == null)
-            {
-                throw new Exception("Oops!"); // TODO
-            }
 
             var actions = CommandHistory.GetActions();
             while (actions.Count > 0)

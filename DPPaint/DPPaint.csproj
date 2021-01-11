@@ -100,18 +100,16 @@
     <Compile Include="Models\ShapeType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsDialog.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SettingsDialog.Designer.cs">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\DrawCommand\DrawFilledInCommand.cs" />
+    <Compile Include="Views\DrawCommand\DrawOutlineAndFilledInCommand.cs" />
+    <Compile Include="Views\DrawCommand\IDrawCommand.cs" />
+    <Compile Include="Views\DrawCommand\DrawOutlineCommand.cs" />
     <Compile Include="Views\EventName.cs" />
     <Compile Include="Views\Gui.cs" />
     <Compile Include="Views\GuiWindow.cs">
@@ -124,12 +122,10 @@
     <Compile Include="Views\PaintCanvas.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\PaintCanvasBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Views\PaintStrategy\EllipsePaintStrategy.cs" />
     <Compile Include="Views\PaintStrategy\IPaintStrategy.cs" />
     <Compile Include="Views\PaintStrategy\RectanglePaintStrategy.cs" />
+    <Compile Include="Views\PaintStrategy\TrianglePaintStrategy.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -139,9 +135,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SettingsDialog.resx">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,9 +143,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\PaintCanvas.resx">
       <DependentUpon>PaintCanvas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\PaintCanvasBase.resx">
-      <DependentUpon>PaintCanvasBase.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

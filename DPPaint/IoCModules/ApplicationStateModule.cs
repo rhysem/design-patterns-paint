@@ -9,7 +9,8 @@ namespace DPPaint.IoCModules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ApplicationState>()
-                .As<IApplicationState>();
+                .As<IApplicationState>()
+                .SingleInstance();
         }
     }
 }

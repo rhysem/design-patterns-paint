@@ -14,8 +14,6 @@ namespace DPPaint.Views
         private readonly int buttonDefaultHeight = 30;
         private readonly int buttonDefaultWidth = 100;
         private readonly Dictionary<EventName, Button> eventButtons = new Dictionary<EventName, Button>();
-        //private SettingsDialog _settingsDialog = null;
-        private SettingsForm _settingsForm = null;
 
         public GuiWindow(PaintCanvas canvas)
         {
@@ -33,11 +31,6 @@ namespace DPPaint.Views
             canvas.BackColor = System.Drawing.Color.FromArgb(155, 155, 155);
 
             Controls.Add(canvas);
-            //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            //    //setExtendedState(JFrame.MAXIMIZED_BOTH);
-            //    //JPanel window = createWindow();
-            //    //window.add(canvas, BorderLayout.CENTER);
-            //    //validate();
         }
 
         public Button GetButton(EventName eventName)
@@ -49,33 +42,6 @@ namespace DPPaint.Views
 
             return eventButtons[eventName];
         }
-
-        public void SetSettingsDialog(SettingsForm dialog)
-        {
-            if (_settingsForm != null)
-            {
-                _settingsForm.Dispose();
-            }
-
-            //_settingsForm = dialog;
-            //_settingsForm.Visible = true;
-            //_settingsForm.Location = new Point(100, 100);
-            //Controls.Add(_settingsForm);
-            //_settingsForm.BringToFront();
-            //var s = _settingsForm.ShowDialog();
-            //if (_settingsDialog != null)
-            //{
-            //    _settingsDialog.Dispose();
-            //}
-
-            //_settingsDialog = dialog;
-            //_settingsDialog.Visible = true;
-            //_settingsDialog.Location = new Point(100, 100);
-            //Controls.Add(_settingsDialog);
-            //_settingsDialog.BringToFront();
-            //_settingsDialog.Show();
-        }
-
         private void InitializeComponent()
         {
             this.SuspendLayout();
@@ -135,15 +101,5 @@ namespace DPPaint.Views
             panel.Height = buttonDefaultHeight;
             return panel;
         }
-
-        //private JPanel createBackgroundPanel()
-        //{
-        //    JPanel contentPane = new JPanel();
-        //    contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-        //    contentPane.setLayout(new BorderLayout(0, 0));
-        //    contentPane.setBackground(Color.WHITE);
-        //    setContentPane(contentPane);
-        //    return contentPane;
-        //}
     }
 }
