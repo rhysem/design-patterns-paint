@@ -84,6 +84,7 @@
     <Compile Include="IoCModules\GuiModule.cs" />
     <Compile Include="IoCModules\GuiWindowModule.cs" />
     <Compile Include="IoCModules\PaintControllerModule.cs" />
+    <Compile Include="Models\Action.cs" />
     <Compile Include="Models\ApplicationState\ApplicationState.cs" />
     <Compile Include="Models\ApplicationState\IApplicationState.cs" />
     <Compile Include="Models\Dialogs\ChoosePrimaryColorDialog.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Models\Dialogs\IDialogProvider.cs" />
     <Compile Include="Models\DrawAction.cs" />
     <Compile Include="Models\MouseMode.cs" />
+    <Compile Include="Models\MoveAction.cs" />
     <Compile Include="Models\ShapeColor.cs" />
     <Compile Include="Models\ShapeShadingType.cs" />
     <Compile Include="Models\ShapeType.cs" />
@@ -119,6 +121,9 @@
     <Compile Include="Views\IEventCallback.cs" />
     <Compile Include="Views\IGuiWindow.cs" />
     <Compile Include="Views\IUiModule.cs" />
+    <Compile Include="Views\MoveCommand\MoveVisitor.cs" />
+    <Compile Include="Views\MoveCommand\IVisitableElement.cs" />
+    <Compile Include="Views\MoveCommand\IVisitor.cs" />
     <Compile Include="Views\PaintCanvas.cs">
       <SubType>Component</SubType>
     </Compile>

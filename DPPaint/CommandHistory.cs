@@ -8,8 +8,8 @@ namespace DPPaint
     {
         private static CommandHistory _commandHistory;
         private static readonly object historyLock = new object();
-        private static Stack<DrawAction> _undoStack = new Stack<DrawAction>();
-        private static Stack<DrawAction> _redoStack = new Stack<DrawAction>();
+        private static Stack<Action> _undoStack = new Stack<Action>();
+        private static Stack<Action> _redoStack = new Stack<Action>();
 
         private CommandHistory()
         {
@@ -28,15 +28,15 @@ namespace DPPaint
             }
         }
 
-        public static void AddAction(DrawAction action)
+        public static void AddAction(Action action)
         {
             _undoStack.Push(action);
         }
 
-        public static Queue<DrawAction> GetActions()
+        public static Queue<Action> GetActions()
         {
-            var stack = new Stack<DrawAction>(_undoStack);
-            var queue = new Queue<DrawAction>();
+            var stack = new Stack<Action>(_undoStack);
+            var queue = new Queue<Action>();
             while(stack.Count > 0)
             {
                 var o = stack.Pop();
