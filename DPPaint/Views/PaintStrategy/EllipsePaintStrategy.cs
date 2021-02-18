@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 
 using DPPaint.Models;
 using DPPaint.Models.ApplicationState;
@@ -18,7 +17,13 @@ namespace DPPaint.Views.PaintStrategy
             AddDrawAction();
         }
 
-        public void AddDrawAction()
+        public void DrawShape(Graphics g, Point pointA, Point pointB)
+        {
+            _ellipse = CalculateEllipseBounds(pointA, pointB);
+            var action = AddDrawAction();
+            action.DrawCommand.ExecuteDraw(g, action);
+        }
+        private DrawAction AddDrawAction()
         {
             var action = new DrawAction()
             {
@@ -27,14 +32,12 @@ namespace DPPaint.Views.PaintStrategy
                 DrawCommand = GetDrawCommandType(),
                 PrimaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActivePrimaryColor())),
                 SecondaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActiveSecondaryColor())),
-            };  
+                Order = CommandHistory.GetActions().Count
+            };
 
             CommandHistory.AddAction(action);
-        }
 
-        public void DrawShape(DrawAction a, PaintEventArgs e)
-        {
-            a.DrawCommand.ExecuteDraw(e, a);
+            return action;
         }
 
         private Rectangle CalculateEllipseBounds(Point pointA, Point pointB)

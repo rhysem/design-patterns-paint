@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
 
 using DPPaint.Models;
 using DPPaint.Models.ApplicationState;
@@ -12,13 +11,14 @@ namespace DPPaint.Views.PaintStrategy
     {
         private Rectangle _rectangle;
 
-        public void SetPoints(Point pointA, Point pointB)
+        public void DrawShape(Graphics g, Point pointA, Point pointB)
         {
             _rectangle = CalculateRectangle(pointA, pointB);
-            AddDrawAction();
+            var action = AddDrawAction();
+            action.DrawCommand.ExecuteDraw(g, action);
         }
 
-        public void AddDrawAction()
+        private DrawAction AddDrawAction()
         {
             var action = new DrawAction()
             {
@@ -27,14 +27,12 @@ namespace DPPaint.Views.PaintStrategy
                 DrawCommand = GetDrawCommandType(),
                 PrimaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActivePrimaryColor())),
                 SecondaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActiveSecondaryColor())),
+                Order = CommandHistory.GetActions().Count
             };
 
             CommandHistory.AddAction(action);
-        }
 
-        public void DrawShape(DrawAction a, PaintEventArgs e)
-        {
-            a.DrawCommand.ExecuteDraw(e, a);
+            return action;
         }
 
         private Rectangle CalculateRectangle(Point pointA, Point pointB)

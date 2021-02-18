@@ -33,18 +33,23 @@ namespace DPPaint
             _undoStack.Push(action);
         }
 
-        public static Queue<Action> GetActions()
+        public static Stack<Action> GetActions()
         {
-            var stack = new Stack<Action>(_undoStack);
-            var queue = new Queue<Action>();
-            while(stack.Count > 0)
-            {
-                var o = stack.Pop();
-                queue.Enqueue(o);
-            }
-
-            return queue;
+            return _undoStack;
         }
+
+        //public static Queue<Action> GetActions()
+        //{
+        //    var stack = new Stack<Action>(_undoStack);
+        //    var queue = new Queue<Action>();
+        //    while(stack.Count > 0)
+        //    {
+        //        var o = stack.Pop();
+        //        queue.Enqueue(o);
+        //    }
+
+        //    return queue;
+        //}
 
         public static bool Undo()
         {

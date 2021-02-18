@@ -12,6 +12,7 @@ namespace DPPaint.Models
         public Color PrimaryColor { get; set; }
         public Color SecondaryColor { get; set; }
         public IDrawCommand DrawCommand { get; set; }
+        public int Order { get; set; }
         public void AcceptVisitor(IVisitor visitor)
         {
             visitor.Visit(Shape);
