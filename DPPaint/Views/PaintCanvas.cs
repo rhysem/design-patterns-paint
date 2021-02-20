@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 
 using DPPaint.Models;
@@ -15,7 +16,7 @@ namespace DPPaint
         private static IPaintStrategy _paintStrategy;
         private IVisitor _moveVisitor;
         private ApplicationState _applicationState;
-        private Bitmap _canvas;
+        private Image _canvas;
         protected Point _pointA;
         protected Point _pointB;
 
@@ -24,15 +25,15 @@ namespace DPPaint
             MouseDown += new MouseEventHandler(canvas_MouseDown);
             MouseUp += new MouseEventHandler(canvas_MouseUp);
             _paintStrategy = new RectanglePaintStrategy(); // default
-            //_canvas = new Bitmap(this.Width, this.Height); 
         }
 
-        public void SetDimensions(int height, int width, int top)
+        public void Initialize(int height, int width, int top)
         {
             Height = height;
             Width = width;
             Top = top;
             _canvas = new Bitmap(width, height);
+            //CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ));
         }
 
         public static void SetPaintStrategy(ShapeType shapeType)
@@ -78,17 +79,18 @@ namespace DPPaint
                     using (Graphics g = Graphics.FromImage(_canvas))
                     {
                         _paintStrategy.DrawShape(g, _pointA, _pointB);
+
+                        using (var ms = new MemoryStream())
+                        {
+                            _canvas.Save(ms, ImageFormat.Png);
+                            CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ms.ToArray()));
+
+                        }
                     }
-                    //using (Bitmap temp = new Bitmap(_canvas))
-                    //{
-                    //    using (Graphics g = Graphics.FromImage(temp))
-                    //    {
-                    //        g.FillRectangle(new SolidBrush(Color.Red), Rectangle.FromLTRB(100, 100, 100, 100));
-                    //        _paintStrategy.DrawShape(g, _pointA, _pointB);
-                    //    }
-                    //}
 
                     Invalidate();
+
+
                     //Refresh();
                     break;
                 case MouseMode.SELECT:
@@ -99,10 +101,10 @@ namespace DPPaint
                     // calc which DrawActions should be Visited
                     // Visit() will populate IVisitor's _selectedShapes()
 
-                    foreach (DrawAction shape in CommandHistory.GetActions().Where(a => a.GetType() == typeof(DrawAction) && IsShapeSelected(((DrawAction)a).Shape)))
-                    {
-                        shape.AcceptVisitor(_moveVisitor);
-                    }
+                    //foreach (DrawAction shape in CommandHistory.GetActions().Where(a => a.GetType() == typeof(DrawAction) && IsShapeSelected(((DrawAction)a).Shape)))
+                    //{
+                    //    shape.AcceptVisitor(_moveVisitor);
+                    //}
              
                     break;
 
@@ -141,50 +143,25 @@ namespace DPPaint
             base.OnPaint(e);
 
             e.Graphics.DrawImage(_canvas, 0, 0);
-            //var actions = CommandHistory.GetActions();
-            //for (int i = 0; i < actions.Count; i++)
-            //{
-            //    var a = actions.ElementAt(i);
-
-            //    if (a.GetType() == typeof(DrawAction))
-            //    {
-            //        // set paint strategy based on type of 'a'
-            //        SetPaintStrategy(((DrawAction)a).ShapeType);
-            //        // draw shape
-            //        _paintStrategy.DrawShape(((DrawAction)a), e);
-            //    }
-            //    else if (a.GetType() == typeof(MoveAction))
-            //    {
-            //        // TODO
-            //    }
-            //}
-
-            //while (actions.Count > 0)
-            //{
-            //    var a = actions.Dequeue();
-
-            //    if (a.GetType() == typeof(DrawAction))
-            //    {
-            //        // set paint strategy based on type of 'a'
-            //        SetPaintStrategy(((DrawAction)a).ShapeType);
-            //        // draw shape
-            //        _paintStrategy.DrawShape(((DrawAction)a), e);
-            //    }
-            //    else if (a.GetType() == typeof(MoveAction)) { 
-            //    }
-            //}
-
         }
 
         public void Undo()
         {
-            CommandHistory.Undo();
+            var bytes = CommandHistory.Undo().GetSnapshotBytes();
+            using (var ms = new MemoryStream(bytes))
+            {
+                _canvas = (Bitmap)Image.FromStream(ms);
+            }
             Refresh();
         }
 
         public void Redo()
         {
-            CommandHistory.Redo();
+            var bytes = CommandHistory.Redo().GetSnapshotBytes();
+            using (var ms = new MemoryStream(bytes))
+            {
+                _canvas = (Bitmap)Image.FromStream(ms);
+            }
             Refresh();
         }
 

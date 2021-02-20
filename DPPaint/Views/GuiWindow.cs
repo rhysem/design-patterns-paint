@@ -22,7 +22,7 @@ namespace DPPaint.Views
             var menu = CreateMenu();
             Controls.Add(menu);
 
-            canvas.SetDimensions(defaultHeight - menu.Height, defaultWidth, menu.Height);
+            canvas.Initialize(defaultHeight - menu.Height, defaultWidth, menu.Height);
             //canvas.Top = menu.Height;
             //canvas.Height = defaultHeight - menu.Height;
             //canvas.Width = defaultWidth;

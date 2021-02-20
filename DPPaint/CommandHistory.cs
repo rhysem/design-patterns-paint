@@ -8,12 +8,12 @@ namespace DPPaint
     {
         private static CommandHistory _commandHistory;
         private static readonly object historyLock = new object();
-        private static Stack<Action> _undoStack = new Stack<Action>();
-        private static Stack<Action> _redoStack = new Stack<Action>();
+
+        private static Stack<CanvasMomento> _undoStack = new Stack<CanvasMomento>();
+        private static Stack<CanvasMomento> _redoStack = new Stack<CanvasMomento>();
 
         private CommandHistory()
-        {
-        }
+        { }
 
         public static CommandHistory GetCommandHistoryInstance()
         {
@@ -28,30 +28,17 @@ namespace DPPaint
             }
         }
 
-        public static void AddAction(Action action)
+        public static void Add(CanvasMomento momento)
         {
-            _undoStack.Push(action);
+            _undoStack.Push(momento);
         }
 
-        public static Stack<Action> GetActions()
+        public static Stack<CanvasMomento> GetActions()
         {
             return _undoStack;
         }
 
-        //public static Queue<Action> GetActions()
-        //{
-        //    var stack = new Stack<Action>(_undoStack);
-        //    var queue = new Queue<Action>();
-        //    while(stack.Count > 0)
-        //    {
-        //        var o = stack.Pop();
-        //        queue.Enqueue(o);
-        //    }
-
-        //    return queue;
-        //}
-
-        public static bool Undo()
+        public static CanvasMomento Undo()
         {
             var result = _undoStack.Count > 0;
             if (result)
@@ -60,10 +47,10 @@ namespace DPPaint
                 _redoStack.Push(p);
                 // p.undo
             }
-            return result;
+            return _undoStack.Peek();
         }
 
-        public static bool Redo()
+        public static CanvasMomento Redo()
         {
             var result = _redoStack.Count > 0;
             if (result)
@@ -72,7 +59,7 @@ namespace DPPaint
                 _undoStack.Push(p);
                 // p.undo
             }
-            return result;
+            return _redoStack.Peek();
         }
     }
 }

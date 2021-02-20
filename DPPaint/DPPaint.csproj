@@ -87,6 +87,7 @@
     <Compile Include="Models\Action.cs" />
     <Compile Include="Models\ApplicationState\ApplicationState.cs" />
     <Compile Include="Models\ApplicationState\IApplicationState.cs" />
+    <Compile Include="Models\CanvasMomento.cs" />
     <Compile Include="Models\Dialogs\ChoosePrimaryColorDialog.cs" />
     <Compile Include="Models\Dialogs\ChooseSecondaryColorDialog.cs" />
     <Compile Include="Models\Dialogs\ChooseShadingTypeDialog.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Models\Dialogs\DialogProvider.cs" />
     <Compile Include="Models\Dialogs\IDialogProvider.cs" />
     <Compile Include="Models\DrawAction.cs" />
+    <Compile Include="Models\ICanvasMomento.cs" />
     <Compile Include="Models\MouseMode.cs" />
     <Compile Include="Models\MoveAction.cs" />
     <Compile Include="Models\ShapeColor.cs" />
