@@ -4,23 +4,23 @@ namespace DPPaint.Models
 {
     public class CanvasMomento : ICanvasMomento
     {
-        private readonly int Order;
-        private readonly byte[] SnapshotBytes;
+        private readonly int _order;
+        private readonly byte[] _snapshotBytes;
 
         public CanvasMomento(int order, Image snapshot, byte[] snapshotBytes)
         {
-            Order = order;
-            SnapshotBytes = snapshotBytes;
+            _order = order;
+            _snapshotBytes = snapshotBytes;
         }
 
         public int GetOrder()
         {
-            return Order;
+            return _order;
         }
 
         public byte[] GetSnapshotBytes()
         {
-            return SnapshotBytes;
+            return _snapshotBytes;
         }
     }
 }

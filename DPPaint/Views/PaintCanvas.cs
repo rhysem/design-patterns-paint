@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 using DPPaint.Models;
@@ -33,7 +34,12 @@ namespace DPPaint
             Width = width;
             Top = top;
             _canvas = new Bitmap(width, height);
-            //CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ));
+            using (var ms = new MemoryStream()) // TODO extract
+            {
+                _canvas.Save(ms, ImageFormat.Png);
+                CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ms.ToArray()));
+
+            }
         }
 
         public static void SetPaintStrategy(ShapeType shapeType)
@@ -96,16 +102,11 @@ namespace DPPaint
                 case MouseMode.SELECT:
                     _moveVisitor = new MoveVisitor(); // when should selected shapes be cleared?
 
-                    // calc bounding box
-                    // foreach shape where [x, y] inside bounding box shape.Visit()
-                    // calc which DrawActions should be Visited
-                    // Visit() will populate IVisitor's _selectedShapes()
+                    foreach (var shape in CommandHistory.GetShapes().Where(a => IsShapeSelected((a).Shape)))
+                    {
+                        shape.AcceptVisitor(_moveVisitor);
+                    }
 
-                    //foreach (DrawAction shape in CommandHistory.GetActions().Where(a => a.GetType() == typeof(DrawAction) && IsShapeSelected(((DrawAction)a).Shape)))
-                    //{
-                    //    shape.AcceptVisitor(_moveVisitor);
-                    //}
-             
                     break;
 
                 case MouseMode.MOVE:
@@ -121,7 +122,47 @@ namespace DPPaint
                         var deltaX = _pointB.X - _pointA.X;
                         var deltaY = _pointB.Y - _pointA.Y;
 
-                        // IVisitor -> _selectedShapes.Pos += delta(X, Y)
+
+                        //using (Graphics g = Graphics.FromImage(_canvas))
+                        _canvas = new Bitmap(_canvas.Width, _canvas.Height);
+                        using (Graphics g = Graphics.FromImage(_canvas))
+                        {
+                            var shapes = CommandHistory.GetShapes();
+                            CommandHistory.RemoveAllShapes();
+
+                            foreach (var shape in shapes) // TODO - verify returns IN ORDER
+                            {
+                                SetPaintStrategy(shape.ShapeType);
+
+                                var rect = (Rectangle)shape.Shape;
+                                var pointA = new Point(rect.X, rect.Y); // TODO - move to strategy
+                                var pointB = new Point(rect.X + rect.Width, rect.Y + rect.Height);
+
+                                var selectedShapes = _moveVisitor.GetSelectedShapes();
+
+                                if (selectedShapes.Contains(shape))
+                                {
+                                    var movedPointA = new Point(pointA.X + deltaX, pointA.Y + deltaY);
+                                    var movedPointB = new Point(pointB.X + deltaX, pointB.Y + deltaY);
+
+                                    _paintStrategy.DrawShape(g, movedPointA, movedPointB);
+                                    _moveVisitor.UpdateSelectedShape(shape, CommandHistory.GetShapes().Last());
+                                }
+                                else
+                                {
+                                    _paintStrategy.DrawShape(g, pointA, pointB);
+                                }
+                            }
+
+                            using (var ms = new MemoryStream())
+                            {
+                                _canvas.Save(ms, ImageFormat.Png);
+                                CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ms.ToArray()));
+                            }
+
+                            Refresh();
+                        }
+
                         // move should NOT deselect shapes
                     }
 

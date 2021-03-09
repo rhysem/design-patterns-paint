@@ -27,10 +27,10 @@ namespace DPPaint.Views.PaintStrategy
                 DrawCommand = GetDrawCommandType(),
                 PrimaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActivePrimaryColor())),
                 SecondaryColor = Color.FromName(Enum.GetName(typeof(ShapeColor), ApplicationState.GetApplicationState().GetActiveSecondaryColor())),
-                Order = CommandHistory.GetActions().Count
+                Order = CommandHistory.GetShapes().Count
             };
 
-            //CommandHistory.AddAction(action);
+            CommandHistory.AddShape(action);
 
             return action;
         }

@@ -12,6 +12,9 @@ namespace DPPaint
         private static Stack<CanvasMomento> _undoStack = new Stack<CanvasMomento>();
         private static Stack<CanvasMomento> _redoStack = new Stack<CanvasMomento>();
 
+        private static Stack<DrawAction> _undoShapeStack = new Stack<DrawAction>();
+        private static Stack<DrawAction> _redoShapeStack = new Stack<DrawAction>();
+
         private CommandHistory()
         { }
 
@@ -28,6 +31,11 @@ namespace DPPaint
             }
         }
 
+        public static void AddShape(DrawAction action)
+        {
+            _undoShapeStack.Push(action);
+        }
+
         public static void Add(CanvasMomento momento)
         {
             _undoStack.Push(momento);
@@ -38,6 +46,24 @@ namespace DPPaint
             return _undoStack;
         }
 
+        public static Queue<DrawAction> GetShapes()
+        {
+            var stack = new Stack<DrawAction>(_undoShapeStack);
+            var queue = new Queue<DrawAction>();
+            while (stack.Count > 0)
+            {
+                var o = stack.Pop();
+                queue.Enqueue(o);
+            }
+
+            return queue;
+        }
+
+        public static void RemoveAllShapes()
+        {
+            _undoShapeStack.Clear();
+        }
+
         public static CanvasMomento Undo()
         {
             var result = _undoStack.Count > 0;
@@ -45,6 +71,9 @@ namespace DPPaint
             {
                 var p = _undoStack.Pop();
                 _redoStack.Push(p);
+
+                var s = _undoShapeStack.Pop();
+                _redoShapeStack.Push(s);
                 // p.undo
             }
             return _undoStack.Peek();
@@ -53,13 +82,19 @@ namespace DPPaint
         public static CanvasMomento Redo()
         {
             var result = _redoStack.Count > 0;
+            var p = new CanvasMomento(-1, null, null);
             if (result)
             {
-                var p = _redoStack.Pop();
+                p = _redoStack.Pop();
                 _undoStack.Push(p);
+
+                var s = _redoShapeStack.Pop();
+                _undoShapeStack.Push(s);
+
                 // p.undo
             }
-            return _redoStack.Peek();
+
+            return p;
         }
     }
 }

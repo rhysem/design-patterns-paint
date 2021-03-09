@@ -15,7 +15,7 @@ namespace DPPaint.Models
         public int Order { get; set; }
         public void AcceptVisitor(IVisitor visitor)
         {
-            visitor.Visit(Shape);
+            visitor.Visit(this);
         }
     }
 }

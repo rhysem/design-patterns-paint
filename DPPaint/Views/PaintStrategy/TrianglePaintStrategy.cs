@@ -44,7 +44,7 @@ namespace DPPaint.Views.PaintStrategy
                 Order = CommandHistory.GetActions().Count
             };
 
-            //CommandHistory.AddAction(action);
+            CommandHistory.AddShape(action);
 
             return action;
         }
