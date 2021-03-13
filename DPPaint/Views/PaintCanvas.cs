@@ -96,13 +96,11 @@ namespace DPPaint
 
                     Invalidate();
 
-
-                    //Refresh();
                     break;
                 case MouseMode.SELECT:
                     _moveVisitor = new MoveVisitor(); // when should selected shapes be cleared?
 
-                    foreach (var shape in CommandHistory.GetShapes().Where(a => IsShapeSelected((a).Shape)))
+                    foreach (var shape in CommandHistory.GetShapes().Where(a => IsShapeSelected((a).Shape, _pointA, _pointB)))
                     {
                         shape.AcceptVisitor(_moveVisitor);
                     }
@@ -122,8 +120,6 @@ namespace DPPaint
                         var deltaX = _pointB.X - _pointA.X;
                         var deltaY = _pointB.Y - _pointA.Y;
 
-
-                        //using (Graphics g = Graphics.FromImage(_canvas))
                         _canvas = new Bitmap(_canvas.Width, _canvas.Height);
                         using (Graphics g = Graphics.FromImage(_canvas))
                         {
@@ -162,8 +158,6 @@ namespace DPPaint
 
                             Refresh();
                         }
-
-                        // move should NOT deselect shapes
                     }
 
                     break;
@@ -206,9 +200,12 @@ namespace DPPaint
             Refresh();
         }
 
-        private bool IsShapeSelected(object shape)
+        private bool IsShapeSelected(object shape, Point pointA, Point pointB)
         {
-            return true; // TODO
+            var bounds = Rectangle.FromLTRB(Math.Min(pointA.X, pointB.X), Math.Min(pointA.Y, pointB.Y),
+                                   Math.Max(pointA.X, pointB.X), Math.Max(pointA.Y, pointB.Y));
+
+            return bounds.IntersectsWith((Rectangle)shape);
         }
     }
 }
