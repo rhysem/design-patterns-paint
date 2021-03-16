@@ -15,21 +15,7 @@ namespace DPPaint.Models
         public int Order { get; set; }
         public void AcceptVisitor(IVisitor visitor, Graphics g)
         {
-            visitor.Visit(this);
-
-            var currentShape = ((Rectangle)this.Shape);
-
-            var outlineCommand = new DrawDashedOutlineCommand();
-            var outline = new DrawAction()
-            {
-                DrawCommand = outlineCommand,
-                Order = -1,
-                PrimaryColor = Color.Black,
-                SecondaryColor = Color.White,
-                Shape = new Rectangle(currentShape.X - 5, currentShape.Y - 5, currentShape.Width + 10, currentShape.Height + 10),
-                ShapeType = this.ShapeType
-            };
-            outline.DrawCommand.ExecuteDraw(g, outline);
+            visitor.Visit(this, g);
         }
     }
 }

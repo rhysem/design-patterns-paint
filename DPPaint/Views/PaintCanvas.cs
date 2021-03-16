@@ -16,6 +16,7 @@ namespace DPPaint
     {
         private static IPaintStrategy _paintStrategy;
         private IVisitor _moveVisitor;
+        private IVisitor _copyVisitor;
         private ApplicationState _applicationState;
         private Image _canvas;
         protected Point _pointA;
@@ -207,6 +208,68 @@ namespace DPPaint
                 _canvas = (Bitmap)Image.FromStream(ms);
             }
             Refresh();
+        }
+
+        public void Copy()
+        {
+            if(_moveVisitor?.GetSelectedShapes().Count < 1)
+            {
+                // no shapes to copy
+                return;
+            }
+
+            // new set of copied shapes every time copy called
+            _copyVisitor = new CopyVisitor();
+            foreach(var shape in _moveVisitor.GetSelectedShapes())
+            {
+                shape.AcceptVisitor(_copyVisitor, null);
+            }
+        }
+
+        public void Paste()
+        {
+            var copiedShapes = _copyVisitor.GetSelectedShapes();
+
+            if(copiedShapes.Count < 1)
+            {
+                // no shapes to paste
+                return;
+            }
+
+            //_canvas = new Bitmap(_canvas.Width, _canvas.Height); // NEEDED?
+            using (Graphics g = Graphics.FromImage(_canvas))
+            {
+                foreach (var shape in copiedShapes)
+                {
+                    SetPaintStrategy(shape.ShapeType);
+
+                    var rect = (Rectangle)shape.Shape;
+
+                    var pointA = new Point(rect.Left - 15, rect.Top - 15);
+                    var pointB = new Point(pointA.X + rect.Width, pointA.Y + rect.Height);
+                    _paintStrategy.DrawShape(g, pointA, pointB);
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    _canvas.Save(ms, ImageFormat.Png);
+                    CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ms.ToArray()));
+                }
+
+                Refresh();
+            }
+        }
+
+        public void Delete()
+        {
+            var selectedShapes = _moveVisitor.GetSelectedShapes();
+            if(selectedShapes.Count < 1)
+            {
+                // no shapes to delete
+                return;
+            }
+
+            // TODO - delete selected shapes
         }
 
         private bool IsShapeSelected(object shape, Point pointA, Point pointB)

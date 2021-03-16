@@ -124,6 +124,7 @@
     <Compile Include="Views\IEventCallback.cs" />
     <Compile Include="Views\IGuiWindow.cs" />
     <Compile Include="Views\IUiModule.cs" />
+    <Compile Include="Views\MoveCommand\CopyVisitor.cs" />
     <Compile Include="Views\MoveCommand\MoveVisitor.cs" />
     <Compile Include="Views\MoveCommand\IVisitableElement.cs" />
     <Compile Include="Views\MoveCommand\IVisitor.cs" />

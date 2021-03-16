@@ -29,6 +29,9 @@ namespace DPPaint.Controllers
             _uiModule.AddEvent(EventName.CHOOSE_MOUSE_MODE, () => _applicationState.SetActiveStartAndEndPointMode());
             _uiModule.AddEvent(EventName.UNDO, () => _paintCanvas.Undo());
             _uiModule.AddEvent(EventName.REDO, () => _paintCanvas.Redo());
+            _uiModule.AddEvent(EventName.COPY, () => _paintCanvas.Copy());
+            _uiModule.AddEvent(EventName.PASTE, () => _paintCanvas.Paste());
+            _uiModule.AddEvent(EventName.DELETE, () => _paintCanvas.Delete());
         }
     }
 }
