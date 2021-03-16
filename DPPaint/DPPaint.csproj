@@ -110,6 +110,7 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\DrawCommand\DrawDashedOutlineCommand.cs" />
     <Compile Include="Views\DrawCommand\DrawFilledInCommand.cs" />
     <Compile Include="Views\DrawCommand\DrawOutlineAndFilledInCommand.cs" />
     <Compile Include="Views\DrawCommand\IDrawCommand.cs" />

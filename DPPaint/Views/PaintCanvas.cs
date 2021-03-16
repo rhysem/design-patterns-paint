@@ -100,23 +100,32 @@ namespace DPPaint
                 case MouseMode.SELECT:
                     _moveVisitor = new MoveVisitor(); // when should selected shapes be cleared?
 
-                    foreach (var shape in CommandHistory.GetShapes().Where(a => IsShapeSelected((a).Shape, _pointA, _pointB)))
+                    using (Graphics g = Graphics.FromImage(_canvas))
                     {
-                        shape.AcceptVisitor(_moveVisitor);
-                    }
+                        foreach (var shape in CommandHistory.GetShapes().Where(a => IsShapeSelected((a).Shape, _pointA, _pointB)))
+                        {
+                            shape.AcceptVisitor(_moveVisitor, g);
+                        }
 
+                        using (var ms = new MemoryStream())
+                        {
+                            _canvas.Save(ms, ImageFormat.Png);
+                            //CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ms.ToArray()));
+                        }
+
+                        Refresh();
+                    }
+                      
                     break;
 
                 case MouseMode.MOVE:
                     if (_moveVisitor == null || _moveVisitor.GetSelectedShapes().Count == 0)
                     {
                         // do nothing
-                        // should this throw error? what does MSPaint do?
                     }
 
                     else
                     {
-                        // move selected shapes
                         var deltaX = _pointB.X - _pointA.X;
                         var deltaY = _pointB.Y - _pointA.Y;
 
@@ -126,7 +135,7 @@ namespace DPPaint
                             var shapes = CommandHistory.GetShapes();
                             CommandHistory.RemoveAllShapes();
 
-                            foreach (var shape in shapes) // TODO - verify returns IN ORDER
+                            foreach (var shape in shapes)
                             {
                                 SetPaintStrategy(shape.ShapeType);
 

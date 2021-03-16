@@ -1,7 +1,9 @@
-﻿namespace DPPaint.Views.MoveCommand
+﻿using System.Drawing;
+
+namespace DPPaint.Views.MoveCommand
 {
     public interface IVisitableElement
     {
-        public void AcceptVisitor(IVisitor visitor);
+        public void AcceptVisitor(IVisitor visitor, Graphics g);
     }
 }
