@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 
 using DPPaint.Models;
+using DPPaint.Views.PaintStrategy;
 
 namespace DPPaint.Views.DrawCommand
 {
@@ -17,7 +18,7 @@ namespace DPPaint.Views.DrawCommand
                     g.DrawRectangle(pen, (Rectangle)action.Shape);
                     break;
                 case ShapeType.TRIANGLE:
-                    g.DrawPolygon(pen, (Point[])action.Shape);
+                    g.DrawPolygon(pen, TrianglePaintStrategy.CalculateTriangle((Rectangle)action.Shape));
                     break;
                 case ShapeType.ELLIPSE:
                     g.DrawEllipse(pen, (Rectangle)action.Shape);

@@ -269,7 +269,34 @@ namespace DPPaint
                 return;
             }
 
-            // TODO - delete selected shapes
+            foreach(var shape in selectedShapes)
+            {
+                CommandHistory.RemoveShape(shape);
+            }
+
+            // redraw and add momento
+            _canvas = new Bitmap(_canvas.Width, _canvas.Height);
+            using (Graphics g = Graphics.FromImage(_canvas))
+            {
+                foreach (var shape in CommandHistory.GetShapes())
+                {
+                    SetPaintStrategy(shape.ShapeType);
+
+                    var rect = (Rectangle)shape.Shape;
+
+                    var pointA = new Point(rect.Left, rect.Top);
+                    var pointB = new Point(pointA.X + rect.Width, pointA.Y + rect.Height);
+                    _paintStrategy.DrawShape(g, pointA, pointB);
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    _canvas.Save(ms, ImageFormat.Png);
+                    CommandHistory.Add(new CanvasMomento(CommandHistory.GetActions().Count, _canvas, ms.ToArray()));
+                }
+
+                Refresh();
+            }
         }
 
         private bool IsShapeSelected(object shape, Point pointA, Point pointB)

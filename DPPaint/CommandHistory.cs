@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using DPPaint.Models;
 
@@ -62,6 +63,16 @@ namespace DPPaint
         public static void RemoveAllShapes()
         {
             _undoShapeStack.Clear();
+        }
+
+        public static void RemoveShape(DrawAction shape)
+        {
+            if (!_undoShapeStack.Contains(shape))
+            {
+                return;
+            }
+
+            _undoShapeStack = new Stack<DrawAction>(_undoShapeStack.Where(s => !s.Equals(shape)));
         }
 
         public static CanvasMomento Undo()

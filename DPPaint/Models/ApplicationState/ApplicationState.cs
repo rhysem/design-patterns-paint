@@ -67,7 +67,7 @@ namespace DPPaint.Models.ApplicationState
 
         public void SetActiveSecondaryColor()
         {
-            _activePrimaryColor = _uiModule.GetDialogResponse(_dialogProvider.GetChoosePrimaryColorDialog());
+            _activeSecondaryColor = _uiModule.GetDialogResponse(_dialogProvider.GetChoosePrimaryColorDialog());
         }
 
         public void SetActiveShadingType()

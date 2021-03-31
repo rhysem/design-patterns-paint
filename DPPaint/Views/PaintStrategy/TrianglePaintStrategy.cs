@@ -19,6 +19,15 @@ namespace DPPaint.Views.PaintStrategy
             AddDrawAction();
         }
        
+        public static Point[] CalculateTriangle(Rectangle bounds)
+        {
+            return new Point[] {
+                new Point() { X = bounds.Left + (bounds.Width / 2), Y = bounds.Top },
+                new Point() { X = bounds.Left, Y = bounds.Bottom },
+                new Point() { X = bounds.Right, Y = bounds.Bottom }
+            };
+        }
+
         public void DrawShape(Graphics g, Point pointA, Point pointB)
         {
             _triangle = CalculateTriangleBounds(pointA, pointB);
@@ -48,16 +57,6 @@ namespace DPPaint.Views.PaintStrategy
 
             return action;
         }
-
-        //private Point[] CalculateTriangle(Point pointA, Point pointB)
-        //{
-        //    return new Point[] {
-        //        new Point() { X = Math.Min(pointA.X, pointB.X) + (Math.Abs(pointA.X - pointB.X) / 2), Y = Math.Min(pointA.Y, pointB.Y)},
-        //        new Point() { X = Math.Min(pointA.X, pointB.X), Y = Math.Max(pointA.Y, pointB.Y)},
-        //        new Point() { X = Math.Max(pointA.X, pointB.X), Y = Math.Max(pointA.Y, pointB.Y)}
-        //    };
-        //}
-
 
         private IDrawCommand GetDrawCommandType()
         {

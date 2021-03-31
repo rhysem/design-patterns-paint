@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 using DPPaint.Models;
@@ -22,7 +21,7 @@ namespace DPPaint.Views.MoveCommand
 
         public void UpdateSelectedShape(DrawAction originalShape, DrawAction newShape)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void Visit(DrawAction shape, Graphics g)
